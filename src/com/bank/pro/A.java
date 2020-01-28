@@ -1,23 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.bank.pro;
 
 import com.bank.exception.InvalidLoginCredentials;
+import com.bank.main.Customer;
+import com.bank.model.DBConfig;
+import java.sql.SQLException;
 
-/**
- *
- * @author Sanjeev H
- */
 public class A {
-    public boolean validate(String Username, String Password) throws InvalidLoginCredentials{
-        if(Username.equals("admin")){
-                     if(Password.equals("1234")){
-                        return true;
-                     }
-                 }
+
+    DBConfig db;
+
+    public A() {
+        this.db = new DBConfig();
+    }
+
+    public boolean processLogin(String Username, String Password) throws InvalidLoginCredentials {
+        if (Username.equals("admin")) {
+            if (Password.equals("1234")) {
+                return true;
+            }
+        }
         throw new InvalidLoginCredentials();
     }
+
+    public void createAccount(Customer c) throws ClassNotFoundException, SQLException {
+        //Access DBConfig and pass customer to createAccount()
+
+        db.createAccount(c);
+    }
+
+    public int stat(int text) throws ClassNotFoundException, SQLException {
+        return(db.selBal(text));
+    }
+
 }

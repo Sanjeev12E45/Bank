@@ -5,6 +5,12 @@
  */
 package com.bank.screens;
 
+import com.bank.main.Customer;
+import com.bank.pro.A;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Sanjeev H
@@ -14,10 +20,14 @@ public class CreateAccountNumber extends javax.swing.JFrame {
     /**
      * Creates new form CreateAcc
      */
+    MainScreen m;
     public CreateAccountNumber() {
         initComponents();
     }
-
+    public CreateAccountNumber(MainScreen m) {
+        initComponents();
+        this.m=m;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,6 +48,7 @@ public class CreateAccountNumber extends javax.swing.JFrame {
         txtAddress = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         lblAccountNumber = new javax.swing.JLabel();
+        lblMsg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,15 +84,14 @@ public class CreateAccountNumber extends javax.swing.JFrame {
 
         lblAccountNumber.setText("--");
 
+        lblMsg.setText("--");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(149, 149, 149)
-                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,14 +108,22 @@ public class CreateAccountNumber extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtName, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
                                     .addComponent(txtAddress)
-                                    .addComponent(txtEmail))))))
+                                    .addComponent(txtEmail)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(149, 149, 149)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(131, 131, 131)
+                                .addComponent(lblAccountNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jButton2)
+                                .addGap(57, 57, 57)
+                                .addComponent(lblMsg)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(131, 131, 131)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
-                    .addComponent(lblAccountNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,16 +148,37 @@ public class CreateAccountNumber extends javax.swing.JFrame {
                     .addComponent(lblAccountNumber))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(22, 22, 22)
-                .addComponent(jButton2)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
+                    .addComponent(lblMsg))
+                .addGap(15, 15, 15))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        Customer c = new Customer();
+        String name = txtName.getText();
+        String email = txtEmail.getText();
+        String address = txtAddress.getText();
+        c.setName(name);
+        c.setEmail(email);
+        c.setAddress(address);
+        c.setAccountNumber(lblAccountNumber.getText());
+        c.setBalance(Integer.toString(0));
+        A a = new A();
+        try {
+            a.createAccount(c);
+            m.setLblMessage("Account Created");
+            m.setVisible(true);
+            setVisible(false);
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(CreateAccountNumber.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
@@ -147,7 +186,7 @@ public class CreateAccountNumber extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNameActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-String name = txtName.getText();
+        String name = txtName.getText();
         String email = txtEmail.getText();
         String address = txtAddress.getText();
         int code1 = name.hashCode();
@@ -206,6 +245,7 @@ String name = txtName.getText();
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel lblAccountNumber;
+    private javax.swing.JLabel lblMsg;
     private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtName;

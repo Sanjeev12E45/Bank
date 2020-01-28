@@ -102,26 +102,19 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-
+           //Read  the values of username and password
         String username=txtUsername.getText();
-                 String password=txtPassword.getText();
-                 A a = new A();
-        try {
-            a.validate(username, password);
-           
-            
-            Thread t = new Thread(){
-                @Override
-                public void run(){
-                     MainScreen ms=new MainScreen();
-            ms.setVisible(true);
-                }
-            };
-                    t.start();
-                    } catch (InvalidLoginCredentials ex) {
-            lblMsg.setText(ex.getmessage()); 
+        String password=txtPassword.getText();
+        A a = new A();
+        try{
+            a.processLogin(username, password);
+            MainScreen m = new MainScreen();
+            m.setVisible(true);
+            setVisible(false);
         }
-                 
+        catch(InvalidLoginCredentials e){
+            lblMsg.setText(e.getmessage());
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**

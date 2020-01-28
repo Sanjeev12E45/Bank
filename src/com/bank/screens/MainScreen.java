@@ -5,6 +5,14 @@
  */
 package com.bank.screens;
 
+import com.bank.pro.A;
+import com.bank.pro.B;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Sanjeev H
@@ -30,8 +38,8 @@ public class MainScreen extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnCreateAccount = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        withdraw = new javax.swing.JButton();
+        statement = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         lblAccountNumber = new javax.swing.JTextField();
         lblMessage = new javax.swing.JLabel();
@@ -48,10 +56,25 @@ public class MainScreen extends javax.swing.JFrame {
         });
 
         jButton2.setText("Deposit");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Withdrawl");
+        withdraw.setText("Withdrawl");
+        withdraw.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                withdrawActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Statement");
+        statement.setText("Statement");
+        statement.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statementActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Account Number");
 
@@ -67,24 +90,21 @@ public class MainScreen extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton2)
                         .addGap(31, 31, 31)
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
-                        .addComponent(jButton4))
+                        .addComponent(withdraw)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                        .addComponent(statement))
+                    .addComponent(btnCreateAccount)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCreateAccount)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addComponent(jLabel2)
-                                .addGap(72, 72, 72)
-                                .addComponent(lblAccountNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel2)
+                        .addGap(72, 72, 72)
+                        .addComponent(lblAccountNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(156, 156, 156)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -103,8 +123,8 @@ public class MainScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(withdraw)
+                    .addComponent(statement))
                 .addGap(25, 25, 25))
         );
 
@@ -113,10 +133,37 @@ public class MainScreen extends javax.swing.JFrame {
 
     private void btnCreateAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateAccountActionPerformed
         
-        CreateAccountNumber ca = new CreateAccountNumber();
+        CreateAccountNumber ca = new CreateAccountNumber(this);
         ca.setVisible(true);
         
     }//GEN-LAST:event_btnCreateAccountActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Deposit dp = new Deposit(Integer.parseInt(lblAccountNumber.getText()));
+        dp.setVisible(true);
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void statementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statementActionPerformed
+        A a = new A();
+        int amount=0;
+        try {
+             amount=a.stat(Integer.parseInt(lblAccountNumber.getText()));
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog(this,"Your balance is Rs "+amount);
+        
+    }//GEN-LAST:event_statementActionPerformed
+
+    private void withdrawActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_withdrawActionPerformed
+        Deposit dp = new Deposit(Integer.parseInt(lblAccountNumber.getText()));
+        dp.changeName("Withdraw");
+        dp.setVisible(true);
+        
+    }//GEN-LAST:event_withdrawActionPerformed
 
     /**
      * @param args the command line arguments
@@ -154,11 +201,15 @@ public class MainScreen extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreateAccount;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField lblAccountNumber;
     private javax.swing.JLabel lblMessage;
+    private javax.swing.JButton statement;
+    private javax.swing.JButton withdraw;
     // End of variables declaration//GEN-END:variables
+
+    public void setLblMessage(String lblMessage) {
+        this.lblMessage.setText(lblMessage);
+    }
 }
